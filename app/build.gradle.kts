@@ -44,4 +44,5 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:5.1.0")
     implementation ("io.github.youth5201314:banner:2.2.3")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("com.google.android.material:material:1.10.0")
 }

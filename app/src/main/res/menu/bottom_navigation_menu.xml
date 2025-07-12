@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/bottom_navigation_home"
+        android:icon="@drawable/ic_home"
+        app:showAsAction="always"
+        android:title="首页" />
+    <item
+        android:id="@+id/bottom_navigation_QA"
+        android:icon="@drawable/ic_qa"
+        
+        app:showAsAction="always"
+        android:title="问答" />
+    <item
+        android:id="@+id/bottom_navigation_system"
+        android:icon="@drawable/ic_system"
+        app:showAsAction="always"
+        android:title="体系" />
+    <item
+        android:id="@+id/bottom_navigation_myself"
+        android:icon="@drawable/ic_myself"
+        app:showAsAction="always"
+        android:title="我的" />
+
+
+</menu>

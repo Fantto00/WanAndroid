@@ -1,6 +1,7 @@
 package adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     private static final int TYPE_CONTENT = 0;//文章内容0
     private static final int TYPE_HEAD = 1;//头部banner1
     //所需数据
-    private List<ArticleInfo.DataDTO.DatasDTO> mDataDTOS = new ArrayList<>();
+    private List<ArticleInfo.DataDTO.DatasDTO> mDataDTOS ;
 
     //上下文
     private Context mContext;
@@ -34,7 +35,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     public ArticleListAdapter(Context mContext,View headerView) {
         this.mContext = mContext;
-        mHeadView = headerView;
+        this.mHeadView = headerView;
+        this.mDataDTOS = new ArrayList<>();
     }
 
     //获取item类型
@@ -61,11 +63,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         }
     }
 
-    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
-        public HeaderViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
     class MyHolder extends RecyclerView.ViewHolder{
 
         TextView title ;
@@ -85,7 +82,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     @NonNull
     @Override
     public ArticleListAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == TYPE_HEAD){
+        if (viewType == TYPE_HEAD&&mHeadView!=null){
             return new MyHolder(mHeadView);
         }else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_article, parent, false);
@@ -96,15 +93,19 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ArticleListAdapter.MyHolder holder, int position) {
 
-        if (getItemViewType(position) == TYPE_HEAD){
+        if (getItemViewType(position) == TYPE_HEAD) {
+            Log.d("----", "position为0 头部轮播图  ");
             return;
         }
-        position = position-1;
+        //position = position-1;
         //绑定数据 在集合里面取
-        ArticleInfo.DataDTO.DatasDTO datasDTO = mDataDTOS.get(position);
-        holder.title.setText(datasDTO.getTitle());
-        holder.author_name.setText(datasDTO.getAuthor());
-        holder.date.setText(datasDTO.getNiceDate());
+        if (mDataDTOS != null && position > 0) {
+            ArticleInfo.DataDTO.DatasDTO datasDTO = mDataDTOS.get(position - 1);
+            Log.d("---", "获取文章集合索引为 " + (position - 1) + " 的数据: " + datasDTO.getTitle());
+            holder.title.setText(datasDTO.getTitle());
+            holder.author_name.setText(datasDTO.getAuthor());
+            holder.date.setText(datasDTO.getNiceDate());
+        }
     }
 
     @Override
