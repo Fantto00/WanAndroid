@@ -10,7 +10,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_myself"
         android:layout_width="match_parent"
-        android:layout_height="301dp"
+        android:layout_height="280dp"
         android:background="#2196F3"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,13 +20,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -34,31 +27,39 @@
         android:id="@+id/head_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="center"
+        android:layout_marginTop="68dp"
         android:background="#ECECEC"
         android:scaleType="centerCrop"
         android:src="@drawable/placeholder"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.088"
+        app:layout_constraintTop_toTopOf="@id/toolbar_myself"
         app:shapeAppearance="@style/CircleShape" />
 
     <TextView
         android:id="@+id/login_textview"
-        android:layout_width="92dp"
-        android:layout_height="43dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="去登录"
-        android:textColor="@color/white"
-        android:textSize="30dp"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/head_image" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_myself"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.252" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar_myself"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/item_myself"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

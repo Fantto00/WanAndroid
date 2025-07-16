@@ -21,6 +21,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -72,8 +74,27 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         navView=findViewById(R.id.bottom_navigation);
+
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//
+//        MyselfFragment myselfFragment = new MyselfFragment();
+//        transaction.add(R.id.fragment_container,myselfFragment);
+//        transaction.commit();
+
+
         initBottomNavigationView();
+
+        //检查是否需要显示MyselfFragment
+        String showFragment = getIntent().getStringExtra("page");
+        if ("MyselfFragment".equals(showFragment)) {
+            navView.setSelectedItemId(R.id.bottom_navigation_myself);
+        } else {
+            //默认选中首页
+            navView.setSelectedItemId(R.id.bottom_navigation_home);
+        }
 
     }
 

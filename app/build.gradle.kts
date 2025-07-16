@@ -45,4 +45,6 @@ dependencies {
     implementation ("io.github.youth5201314:banner:2.2.3")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.google.android.material:material:1.10.0")
+    implementation ("com.github.franmontiel:PersistentCookieJar:v1.0.1")
+    implementation ("androidx.security:security-crypto:1.1.0-alpha06")
 }

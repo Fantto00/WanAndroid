@@ -1,17 +1,19 @@
 package adapter;
 
 import android.content.Context;
+import android.os.Build;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wanandroid.R;
-import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,27 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     //头部bannerview
     private View mHeadView;
+
+    //点击事件接口
+    public interface OnItemClickListener {
+        void onItemClick(String url);
+    }
+
+    public interface OnCollectClickListener {
+        void onCollectClick(int articleId,int  position);
+    }
+
+    private OnItemClickListener mItemClickListener;
+    private OnCollectClickListener mCollectClickListener;
+
+    //点击事件监听器
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mItemClickListener = listener;
+    }
+
+    public void setOnCollectClickListener(OnCollectClickListener listener) {
+        this.mCollectClickListener = listener;
+    }
 
     public ArticleListAdapter(Context mContext,View headerView) {
         this.mContext = mContext;
@@ -63,11 +86,16 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         }
     }
 
+    public List<ArticleInfo.DataDTO.DatasDTO> getListData() {
+        return mDataDTOS;
+    }
+
     class MyHolder extends RecyclerView.ViewHolder{
 
         TextView title ;
         TextView author_name;
         TextView date;
+        ImageView store_image;
 
 
         public MyHolder(@NonNull View itemView) {
@@ -77,6 +105,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             title = itemView.findViewById(R.id.title);
             author_name = itemView.findViewById(R.id.author_name);
             date = itemView.findViewById(R.id.date);
+            store_image = itemView.findViewById(R.id.store_image);
         }
     }
     @NonNull
@@ -102,11 +131,44 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         if (mDataDTOS != null && position > 0) {
             ArticleInfo.DataDTO.DatasDTO datasDTO = mDataDTOS.get(position - 1);
             Log.d("---", "获取文章集合索引为 " + (position - 1) + " 的数据: " + datasDTO.getTitle());
-            holder.title.setText(datasDTO.getTitle());
+
+
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
+                holder.title.setText(Html.fromHtml(datasDTO.getTitle(), Html.FROM_HTML_MODE_COMPACT));
+            }else{
+                holder.title.setText(Html.fromHtml(datasDTO.getTitle()));
+            }
+
+
+
             holder.author_name.setText(datasDTO.getAuthor());
             holder.date.setText(datasDTO.getNiceDate());
+
+            //设置收藏图标状态
+            holder.store_image.setImageResource(datasDTO.getCollect() ? R.drawable.collect_filled : R.drawable.collect_empty);
+
+            holder.itemView.setOnClickListener(v -> {
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemClick(datasDTO.getLink());
+                }
+            });
+
+            holder.store_image.setOnClickListener(v -> {
+                if (mCollectClickListener != null) {
+                    mCollectClickListener.onCollectClick(datasDTO.getId(),position-1);
+                }
+            });
+
         }
     }
+
+    public void updateCollectStatus(int position, boolean isCollected) {
+        if (mDataDTOS != null && position >= 0 && position < mDataDTOS.size()) {
+            mDataDTOS.get(position).setCollect(isCollected);
+            notifyItemChanged(position + 1); // +1 有header
+        }
+    }
+
 
     @Override
     public int getItemCount() {
